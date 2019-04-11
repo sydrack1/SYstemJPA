@@ -34,7 +34,6 @@ public class EmployeeDAO {
             et.rollback();
         }finally{
             em.close();
-           ConnectionFactory.closeConnection();
         }
         
         return emp;

@@ -35,7 +35,6 @@ public class JobTitleDAO {
             et.rollback();
         }finally{
             em.close();
-            ConnectionFactory.closeConnection();
         }
         
         return jt;
@@ -63,6 +62,20 @@ public class JobTitleDAO {
         
         try{
             jt = em.find(JobTitle.class, id);
+        }catch(Exception e){
+            System.err.println(e);
+        }finally{
+            em.close();
+        }
+        
+        return jt;
+    }
+    public List<JobTitle> findByName(String name){
+        EntityManager em = new ConnectionFactory().getConnection();
+        List<JobTitle> jt = null;
+        
+        try{
+            jt = em.createQuery("FROM JobTitle j where j.name = :name").setParameter("name", name).getResultList();
         }catch(Exception e){
             System.err.println(e);
         }finally{

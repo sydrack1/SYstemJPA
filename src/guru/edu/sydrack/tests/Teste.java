@@ -14,7 +14,7 @@ import guru.edu.sydrack.model.dao.EmployeeDAO;
 import java.time.LocalDate;
 import java.util.Date;
 
-//import guru.edu.sydrack.model.dao.JobTitleDAO;
+//import guru.edu.sydrack.model.dacdo.JobTitleDAO;
 
 /**
  *
