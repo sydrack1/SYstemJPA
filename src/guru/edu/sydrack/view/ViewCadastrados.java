@@ -6,11 +6,14 @@
 package guru.edu.sydrack.view;
 
 import guru.edu.sydrack.converter.LocalDateAttributeConverter;
+import guru.edu.sydrack.model.bean.JobTitle;
 import guru.edu.sydrack.model.dao.EmployeeDAO;
 import guru.edu.sydrack.model.dao.JobTitleDAO;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -38,9 +41,6 @@ public class ViewCadastrados extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        comboxCargo = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableEmp = new javax.swing.JTable();
         panActions = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -52,28 +52,13 @@ public class ViewCadastrados extends javax.swing.JFrame {
         txtDataNasc = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         comboxCargo2 = new javax.swing.JComboBox<>();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        menuCadastrar = new javax.swing.JMenu();
+        btnExcluir = new javax.swing.JButton();
+        btnAtualizar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableEmp = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        tableEmp.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Id", "Nome", "Cargo", "Idade", "Data de admissão"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tableEmp);
 
         jLabel1.setText("Id:");
 
@@ -88,6 +73,25 @@ public class ViewCadastrados extends javax.swing.JFrame {
         txtDataNasc.setText("dd/mm/aaaa");
 
         jLabel5.setText("Cargo:");
+
+        btnExcluir.setBackground(new java.awt.Color(204, 0, 0));
+        btnExcluir.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
+
+        btnAtualizar.setBackground(new java.awt.Color(0, 0, 255));
+        btnAtualizar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnAtualizar.setForeground(new java.awt.Color(255, 255, 255));
+        btnAtualizar.setText("Atualizar");
+        btnAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtualizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panActionsLayout = new javax.swing.GroupLayout(panActions);
         panActions.setLayout(panActionsLayout);
@@ -109,10 +113,16 @@ public class ViewCadastrados extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtNome)
-                    .addComponent(txtDataAdm, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
-                    .addComponent(txtDataNasc, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
-                    .addComponent(comboxCargo2, 0, 311, Short.MAX_VALUE))
+                    .addComponent(txtDataAdm, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtDataNasc)
+                    .addComponent(comboxCargo2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panActionsLayout.createSequentialGroup()
+                .addContainerGap(234, Short.MAX_VALUE)
+                .addComponent(btnExcluir)
+                .addGap(18, 18, 18)
+                .addComponent(btnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
         panActionsLayout.setVerticalGroup(
             panActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,13 +145,42 @@ public class ViewCadastrados extends javax.swing.JFrame {
                 .addGroup(panActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(comboxCargo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 333, Short.MAX_VALUE)
+                .addGroup(panActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
         );
 
-        menuCadastrar.setText("Cadastrar novo funcionário");
-        jMenuBar1.add(menuCadastrar);
+        tableEmp.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        setJMenuBar(jMenuBar1);
+            },
+            new String [] {
+                "Id", "Nome", "Cargo", "Idade", "Data de admissão"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableEmp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableEmpMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableEmp);
+
+        jButton1.setText("CADASTRAR NOVO FUNCIONÁRIO");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -150,22 +189,102 @@ public class ViewCadastrados extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 626, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panActions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(650, Short.MAX_VALUE)
+                    .addComponent(panActions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panActions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(39, Short.MAX_VALUE)
+                    .addComponent(panActions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tableEmpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEmpMouseClicked
+        // TODO add your handling code here:
+         int linhaSelecionada = tableEmp.getSelectedRow();
+        if(linhaSelecionada >= 0){
+            panActions.setVisible(true);
+            txtId.setText( tableEmp.getValueAt(linhaSelecionada, 0).toString());
+            txtNome.setText(tableEmp.getValueAt(linhaSelecionada, 1).toString());
+            comboxCargo2.setSelectedItem(tableEmp.getValueAt(linhaSelecionada, 2));
+           guru.edu.sydrack.model.dao.EmployeeDAO e = new EmployeeDAO();
+           String nascimento = e.findById(Integer.parseInt(tableEmp.getValueAt(linhaSelecionada, 0).toString())).getData_nascimento().toString();
+           String dia = nascimento.substring(8,10);
+           String mes = nascimento.substring(5,7);
+           String ano = nascimento.substring(0,4);
+           nascimento = dia+"/"+mes+"/"+ano;
+           txtDataNasc.setText(nascimento);
+           txtDataAdm.setText(tableEmp.getValueAt(linhaSelecionada, 4).toString());
+        }else{
+            JOptionPane.showMessageDialog(null, "Você não selecionou nenhuma linha");
+        }
+    }//GEN-LAST:event_tableEmpMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        ViewCadastro vc = new ViewCadastro();
+        this.dispose();
+        vc.show();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // TODO add your handling code here:
+        guru.edu.sydrack.model.dao.EmployeeDAO e = new EmployeeDAO();
+        e.remove(Integer.parseInt(txtId.getText()));
+        readJTable();
+        panActions.setVisible(false);
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
+        // TODO add your handling code here:
+        guru.edu.sydrack.model.dao.EmployeeDAO eDAO = new EmployeeDAO();
+        guru.edu.sydrack.model.bean.Employee e = new guru.edu.sydrack.model.bean.Employee();
+         JobTitle jt = new JobTitle();
+        JobTitleDAO jtDAO = new JobTitleDAO();
+        // Cargo
+       jtDAO.findByName(comboxCargo2.getItemAt(comboxCargo2.getSelectedIndex())).forEach(j ->{
+           jt.setId(j.getId());
+       });
+        e.setJob_title(jt);
+        // ID
+        e.setId(Integer.parseInt(txtId.getText()));
+        // Nome
+        e.setName(txtNome.getText());
+        //Data Nascimento
+        String date_string = txtDataNasc.getText();
+        String[] date_preformated = date_string.split("/");
+        LocalDate date_nasciment = LocalDate.of(Integer.parseInt(date_preformated[2]), Integer.parseInt(date_preformated[1]), Integer.parseInt(date_preformated[0]));
+        Date ldac =new LocalDateAttributeConverter().convertToDatabaseColumn(date_nasciment);
+        e.setData_nascimento(ldac);
+        //Data admissão
+        String date_str = txtDataAdm.getText();
+        String[] date_preformated_nasc = date_str.split("/");
+        LocalDate date_admission = LocalDate.of(Integer.parseInt(date_preformated_nasc[2]), Integer.parseInt(date_preformated_nasc[1]), Integer.parseInt(date_preformated_nasc[0]));
+        Date admissao =new LocalDateAttributeConverter().convertToDatabaseColumn(date_admission);
+        e.setData_admissao(admissao);
+        eDAO.saveAndUpdate(e);
+        readJTable();
+         panActions.setVisible(false);
+    }//GEN-LAST:event_btnAtualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,19 +295,11 @@ public class ViewCadastrados extends javax.swing.JFrame {
         tableEmp.getColumnModel().getColumn(1).setPreferredWidth(200);
         tableEmp.getColumnModel().getColumn(2).setPreferredWidth(80);
         tableEmp.getColumnModel().getColumn(3).setPreferredWidth(20);
-        tableEmp.getColumnModel().getColumn(4).setPreferredWidth(60);
+        tableEmp.getColumnModel().getColumn(4).setPreferredWidth(70);
         // Reseta a tabela
         formatarTable.setNumRows(0);
         EmployeeDAO eDAO = new EmployeeDAO();
         eDAO.findAll().forEach(e->{
-           
-            /*Date data = new Date();
-            DateFormat dataFormatada = new SimpleDateFormat("Y");
-            int anoAtual = Integer.parseInt(dataFormatada.format(data));
-            int ano_nasc = e.getData_nascimento().getYear();
-            System.out.println(ano_nasc);
-            int idade = ano_nasc;
-            System.out.println("  AQUI   "+idade);*/
             String dia = e.getData_admissao().toString().substring(8,10);
             String mes = e.getData_admissao().toString().substring(5,7);
             String ano = e.getData_admissao().toString().substring(0,4);
@@ -244,6 +355,7 @@ public class ViewCadastrados extends javax.swing.JFrame {
          idade = anoAtual-anoNasc;
         return idade;
     }
+    
     public void readCombox(){
         
         JobTitleDAO jtDAO = new JobTitleDAO();
@@ -285,16 +397,16 @@ public class ViewCadastrados extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> comboxCargo;
+    private javax.swing.JButton btnAtualizar;
+    private javax.swing.JButton btnExcluir;
     private javax.swing.JComboBox<String> comboxCargo2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JMenu menuCadastrar;
     private javax.swing.JPanel panActions;
     private javax.swing.JTable tableEmp;
     private javax.swing.JTextField txtDataAdm;

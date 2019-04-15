@@ -142,8 +142,9 @@ public class ViewCadastro extends javax.swing.JFrame {
 
     private void btnCancActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancActionPerformed
         // TODO add your handling code here:
+       ViewCadastrados vc = new ViewCadastrados();
         this.dispose();
-        ConnectionFactory.closeConnection();
+        vc.show();
     }//GEN-LAST:event_btnCancActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
@@ -177,6 +178,9 @@ public class ViewCadastro extends javax.swing.JFrame {
         eDAO.saveAndUpdate(e);
         JOptionPane.showMessageDialog(null,"salvo");
         //JOptionPane.showMessageDialog(null,comboxCargo.getItemAt(comboxCargo.getSelectedIndex()));
+        ViewCadastrados vc = new ViewCadastrados();
+        this.dispose();
+        vc.show();
     }//GEN-LAST:event_btnCadastrarActionPerformed
     public void readCombox(){
         
